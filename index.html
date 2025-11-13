@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        :root {
+            --bg: #ffffff;
+            --soft-green: #e9f7f0;
+            --accent-green: #1b8a4a;
+            --line: #c86b7b;
+            --muted: #6b6b6b;
+            --page-width: 980px;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif
+        }
+
+        body {
+            background: #f6f6f6;
+            padding: 18px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--bg);
+            padding: 18px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            height: fit-content;
+            position: sticky;
+            top: 18px;
+        }
+
+        .sidebar h3 {
+            margin: 0 0 12px 0;
+            color: var(--accent-green);
+            font-size: 16px;
+            border-bottom: 2px solid var(--accent-green);
+            padding-bottom: 8px;
+        }
+
+        .saved-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .saved-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: var(--soft-green);
+            border: 1px solid rgba(27, 138, 74, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .saved-item:hover {
+            background: #d4f0e2;
+            border-color: var(--accent-green);
+        }
+
+        .saved-item-name {
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 4px;
+        }
+
+        .saved-item-concept {
+            font-size: 12px;
+            color: var(--muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .saved-item-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .saved-item-actions button {
+            padding: 4px 8px;
+            font-size: 11px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn-load {
+            background: var(--accent-green);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .paper {
+            width: var(--page-width);
+            background: var(--bg);
+            padding: 18px;
+            border: 1px solid rgba(0, 0, 0, 0.06)
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px
+        }
+
+        .title {
+            background: var(--accent-green);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: 700
+        }
+
+        .no-box {
+            border: 2px solid var(--accent-green);
+            padding: 8px 12px;
+            border-radius: 4px;
+            min-width: 140px
+        }
+
+        .no-box input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            font-size: 16px
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px
+        }
+
+        .row .field {
+            flex: 1
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 4px
+        }
+
+        .field input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            background: transparent
+        }
+
+        .small {
+            flex: 0.4
+        }
+
+        .concept {
+            margin-top: 10px
+        }
+
+        .concept textarea {
+            width: 100%;
+            min-height: 48px;
+            padding: 8px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            background: var(--soft-green)
+        }
+
+        .in-letters {
+            margin-top: 8px;
+            background: linear-gradient(180deg, #edf9f2, #e1f2ea);
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(27, 138, 74, 0.12)
+        }
+
+        .main {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px
+        }
+
+        .table-wrap {
+            flex: 1;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            overflow: hidden
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        thead th {
+            background: linear-gradient(180deg, #f5f5f5, #fff);
+            padding: 8px;
+            border-bottom: 1px solid var(--line);
+            text-align: left;
+            font-weight: 700;
+            color: var(--muted)
+        }
+
+        tbody td {
+            padding: 8px;
+            border-bottom: 1px dashed rgba(200, 110, 110, 0.16)
+        }
+
+        .col-cod {
+            width: 14%
+        }
+
+        .col-cuenta {
+            width: 46%
+        }
+
+        .col-deb {
+            width: 20%;
+            text-align: right
+        }
+
+        .col-cred {
+            width: 20%;
+            text-align: right
+        }
+
+        .side {
+            width: 300px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 8px;
+            background: var(--soft-green)
+        }
+
+        .side .mini {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 6px
+        }
+
+        .side label {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .side input {
+            padding: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 3px
+        }
+
+        .signature {
+            height: 120px;
+            border: 1px dashed rgba(0, 0, 0, 0.12);
+            margin-top: 6px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.15)
+        }
+
+        .bottom-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px
+        }
+
+        .bottom-row .box {
+            flex: 1;
+            border: 1px solid var(--line);
+            padding: 14px;
+            background: var(--soft-green);
+            border-radius: 4px;
+            text-align: center
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .footer-right input {
+            width: 60px;
+            padding: 6px;
+            border: 1px solid var(--line);
+            border-radius: 3px
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+            gap: 8px
+        }
+
+        .btn {
+            background: var(--accent-green);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer
+        }
+
+        .btn.secondary {
+            background: #eee;
+            color: var(--muted)
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+       @media print {
+    body {
+        background: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .sidebar {
+        display: none !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 10mm 8mm 10mm 8mm;
+    }
+
+    .paper {
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: none !important;
+        background: var(--bg) !important;
+        padding: 8px !important;
+        transform: scale(0.95);
+        transform-origin: top center;
+    }
+
+    .row,
+    .concept,
+    .in-letters,
+    .main,
+    .bottom-row {
+        margin-top: 6px !important;
+    }
+
+    table td,
+    table th {
+        padding: 4px 6px !important;
+    }
+
+    .actions {
+        display: none !important;
+    }
+
+    .signature {
+        height: 70px !important;
+    }
+
+    .side {
+        padding: 6px !important;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR CON LISTA DE GUARDADOS -->
+    <div class="sidebar">
+        <h3>Pagos Guardados</h3>
+        <div class="saved-list" id="savedList">
+            <div class="empty-state">No hay pagos guardados aún</div>
+        </div>
+    </div>
+
+    <!-- FORMULARIO PRINCIPAL -->
+    <div class="paper">
+        <br>
+        <div class="header">
+            <div class="title">Comprobante de Egreso / Iglesia en Montería</div>
+            <div class="no-box">No. <input id="numero" style="width:100px"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>Ciudad:</label><input placeholder="Montería" id="ciudad"></div>
+            <div class="field small">
+                <label>Fecha:</label>
+                <input type="date" id="fecha">
+            </div>
+            <div class="field small"><label>Valor $</label><input placeholder="$ 0" id="valor" type="number"></div>
+        </div>
+
+        <div class="row" style="margin-top:8px">
+            <div class="field" style="flex:1">
+                <label>Pagado a:</label>
+                <input id="pagado">
+            </div>
+        </div>
+
+        <div class="concept">
+            <label>Por concepto de:</label>
+            <textarea id="concepto"></textarea>
+        </div>
+
+        <div class="in-letters">
+            <strong>La suma de: (en letras)</strong>
+            <div style="margin-top:6px">
+                <input style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.06);border-radius:4px" id="letras">
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-cod">Código</th>
+                            <th class="col-cuenta">Cuenta</th>
+                            <th class="col-deb">Débitos</th>
+                            <th class="col-cred">Créditos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaBody">
+                        <tr>
+                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
+                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
+                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
+                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
+                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
+                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
+                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
+                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
+                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
+                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="side">
+                <div>
+                    <div class="mini">
+                        <div style="flex:1"><label for="efectivo">Efectivo</label> <input type="checkbox" id="efectivo">
+                        </div>
+                    </div>
+                    <div class="signature">Firma y sello</div>
+                    <div style="margin-top:8px;display:flex;align-items:center;justify-content:flex-start;gap:8px">
+                        <div class="mini">
+                            <div style="flex:1"><label>C.C. <input type="checkbox" id="cc"></label></div>
+                        </div>
+                        <div class="mini">
+                            <div style="flex:1"><label>NIT <input type="checkbox" id="nit"></label></div>
+                        </div>
+                        <label>No.</label><input id="docNumero" style="width:130px" placeholder="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <button class="btn" onclick="guardarPago()">Guardar Pago</button>
+            <button class="btn" onclick="window.print()">Imprimir / Descargar</button>
+            <button class="btn secondary" onclick="resetAll()">Limpiar</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Cargar lista de pagos guardados ---
+        function cargarListaPagos() {
+            try {
+                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                const listContainer = document.getElementById('savedList');
+                
+                if (!pagosGuardados) {
+                    listContainer.innerHTML = '<div class="empty-state">No hay pagos guardados aún</div>';
+                    return;
+                }
+
+                const pagos = JSON.parse(pagosGuardados);
+                
+                if (pagos.length === 0) {
+                    listContainer.innerHTML = '<div class="empty-state">No hay pagos guardados aún</div>';
+                    return;
+                }
+
+                listContainer.innerHTML = '';
+                
+                pagos.forEach((pago, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'saved-item';
+                    item.innerHTML = `
+                        <div class="saved-item-name">${pago.pagadoA || 'Sin nombre'}</div>
+                        <div class="saved-item-concept">${pago.concepto || 'Sin concepto'}</div>
+                        <div class="saved-item-actions">
+                            <button class="btn-load" onclick="cargarPago(${index})">Cargar</button>
+                            <button class="btn-delete" onclick="eliminarPago(${index})">✕</button>
+                        </div>
+                    `;
+                    listContainer.appendChild(item);
+                });
+            } catch (e) {
+                console.error('Error al cargar lista:', e);
+            }
+        }
+
+        // --- Guardar pago ---
+        function guardarPago() {
+            const pagadoA = document.getElementById('pagado').value.trim();
+            
+            if (!pagadoA) {
+                alert('Debes completar al menos el campo "Pagado a" para guardar');
+                return;
+            }
+
+            try {
+                // Recopilar datos del formulario
+                const pago = {
+                    pagadoA: pagadoA,
+                    concepto: document.getElementById('concepto').value.trim(),
+                    ciudad: document.getElementById('ciudad').value.trim(),
+                    efectivo: document.getElementById('efectivo').checked,
+                    cc: document.getElementById('cc').checked,
+                    nit: document.getElementById('nit').checked,
+                    docNumero: document.getElementById('docNumero').value.trim(),
+                    cuentas: []
+                };
+
+                // Recopilar datos de la tabla
+                const filas = document.querySelectorAll('#tablaBody tr');
+                filas.forEach(fila => {
+                    const codigo = fila.querySelector('.input-codigo').value.trim();
+                    const cuenta = fila.querySelector('.input-cuenta').value.trim();
+                    
+                    if (codigo || cuenta) {
+                        pago.cuentas.push({
+                            codigo: codigo,
+                            cuenta: cuenta
+                        });
+                    }
+                });
+
+                // Obtener pagos existentes
+                let pagos = [];
+                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                if (pagosGuardados) {
+                    pagos = JSON.parse(pagosGuardados);
+                }
+
+                // Verificar si ya existe un pago con el mismo nombre
+                const indiceExistente = pagos.findIndex(p => p.pagadoA.toLowerCase() === pagadoA.toLowerCase());
+                
+                if (indiceExistente >= 0) {
+                    if (confirm(`Ya existe un pago guardado para "${pagadoA}". ¿Deseas actualizarlo?`)) {
+                        pagos[indiceExistente] = pago;
+                    } else {
+                        return;
+                    }
+                } else {
+                    pagos.push(pago);
+                }
+
+                // Guardar en localStorage
+                localStorage.setItem('pagosGuardados', JSON.stringify(pagos));
+                
+                // Recargar lista
+                cargarListaPagos();
+                
+                alert('Pago guardado correctamente');
+            } catch (e) {
+                console.error('Error al guardar:', e);
+                alert('Error al guardar el pago');
+            }
+        }
+
+        // --- Cargar pago desde la lista ---
+        function cargarPago(index) {
+            try {
+                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                if (!pagosGuardados) return;
+
+                const pagos = JSON.parse(pagosGuardados);
+                const pago = pagos[index];
+
+                // Limpiar formulario primero
+                resetAll();
+
+                // Cargar datos básicos
+                document.getElementById('pagado').value = pago.pagadoA || '';
+                document.getElementById('concepto').value = pago.concepto || '';
+                document.getElementById('ciudad').value = pago.ciudad || '';
+                document.getElementById('efectivo').checked = pago.efectivo || false;
+                document.getElementById('cc').checked = pago.cc || false;
+                document.getElementById('nit').checked = pago.nit || false;
+                document.getElementById('docNumero').value = pago.docNumero || '';
+
+                // Cargar cuentas en la tabla
+                if (pago.cuentas && pago.cuentas.length > 0) {
+                    const filas = document.querySelectorAll('#tablaBody tr');
+                    pago.cuentas.forEach((cuenta, i) => {
+                        if (i < filas.length) {
+                            const fila = filas[i];
+                            fila.querySelector('.input-codigo').value = cuenta.codigo || '';
+                            fila.querySelector('.input-cuenta').value = cuenta.cuenta || '';
+                        }
+                    });
+                }
+
+                // Establecer fecha actual
+                const hoy = new Date().toISOString().split('T')[0];
+                document.getElementById('fecha').value = hoy;
+
+            } catch (e) {
+                console.error('Error al cargar pago:', e);
+                alert('Error al cargar el pago');
+            }
+        }
+
+        // --- Eliminar pago ---
+        function eliminarPago(index) {
+            if (!confirm('¿Estás seguro de eliminar este pago guardado?')) {
+                return;
+            }
+
+            try {
+                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                if (!pagosGuardados) return;
+
+                let pagos = JSON.parse(pagosGuardados);
+                pagos.splice(index, 1);
+
+                localStorage.setItem('pagosGuardados', JSON.stringify(pagos));
+                cargarListaPagos();
+            } catch (e) {
+                console.error('Error al eliminar:', e);
+                alert('Error al eliminar el pago');
+            }
+        }
+
+        // --- Reiniciar formulario ---
+        function resetAll() {
+            document.querySelectorAll('input').forEach(i => {
+                if (i.type !== 'checkbox') i.value = '';
+                if (i.type === 'checkbox') i.checked = false
+            });
+            document.querySelectorAll('textarea').forEach(t => t.value = '');
+        }
+
+        // --- Convertir número a letras (pesos m/cte) ---
+        function numeroALetras(num) {
+            num = parseInt(num);
+            if (isNaN(num) || num === 0) return 'CERO PESOS M/CTE';
+            if (num > 999999999) return 'VALOR DEMASIADO ALTO';
+
+            function grupoTres(n) {
+                const unidades = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
+                const decenas = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+                const centenas = ['', 'cien', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+
+                const c = Math.floor(n / 100);
+                const d = Math.floor((n % 100) / 10);
+                const u = n % 10;
+                let t = '';
+
+                if (c > 0) {
+                    if (c === 1 && (d > 0 || u > 0)) t += 'ciento ';
+                    else t += centenas[c] + ' ';
+                }
+
+                if (d > 0) {
+                    if (d === 1) {
+                        const especiales = ['diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
+                        return t + especiales[u];
+                    } else if (d === 2 && u > 0) {
+                        return t + 'veinti' + unidades[u];
+                    } else {
+                        t += decenas[d];
+                        if (u > 0) t += ' y ' + unidades[u];
+                        return t;
+                    }
+                }
+
+                if (u > 0) t += unidades[u];
+                return t.trim();
+            }
+
+            let millones = Math.floor(num / 1000000);
+            let miles = Math.floor((num % 1000000) / 1000);
+            let resto = num % 1000;
+            let partes = [];
+
+            if (millones > 0) {
+                if (millones === 1) partes.push('un millón');
+                else partes.push(grupoTres(millones) + ' millones');
+            }
+
+            if (miles > 0) {
+                if (miles === 1) partes.push('mil');
+                else partes.push(grupoTres(miles) + ' mil');
+            }
+
+            if (resto > 0) partes.push(grupoTres(resto));
+
+            const texto = partes.join(' ').toUpperCase() + ' PESOS M/CTE';
+            return texto.replace(/\s+/g, ' ').trim();
+        }
+
+        // --- Evento para actualizar letras en tiempo real ---
+        document.getElementById('valor').addEventListener('input', e => {
+            const letras = numeroALetras(e.target.value);
+            document.getElementById('letras').value = letras;
+        });
+
+        // --- Inicializar ---
+        cargarListaPagos();
+    </script>
+</body>
+
+</html>
