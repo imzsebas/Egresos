@@ -278,19 +278,27 @@
             color: rgba(0, 0, 0, 0.15)
         }
 
-        .bottom-row {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px
+        .elaborado-section {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--soft-green);
+            border: 1px solid var(--line);
+            border-radius: 4px;
         }
 
-        .bottom-row .box {
-            flex: 1;
+        .elaborado-section label {
+            display: block;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 8px;
+        }
+
+        .elaborado-section input {
+            width: 100%;
+            padding: 8px;
             border: 1px solid var(--line);
-            padding: 14px;
-            background: var(--soft-green);
             border-radius: 4px;
-            text-align: center
+            background: white;
         }
 
         .footer-right {
@@ -335,59 +343,58 @@
             font-size: 13px;
         }
 
-       @media print {
-    body {
-        background: white !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+        @media print {
+            body {
+                background: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
 
-    .sidebar {
-        display: none !important;
-    }
+            .sidebar {
+                display: none !important;
+            }
 
-    @page {
-        size: A4;
-        margin: 10mm 8mm 10mm 8mm;
-    }
+            @page {
+                size: A4;
+                margin: 10mm 8mm 10mm 8mm;
+            }
 
-    .paper {
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        box-shadow: none !important;
-        background: var(--bg) !important;
-        padding: 8px !important;
-        transform: scale(0.95);
-        transform-origin: top center;
-    }
+            .paper {
+                border: 1px solid rgba(0, 0, 0, 0.06);
+                box-shadow: none !important;
+                background: var(--bg) !important;
+                padding: 8px !important;
+                transform: scale(0.95);
+                transform-origin: top center;
+            }
 
-    .row,
-    .concept,
-    .in-letters,
-    .main,
-    .bottom-row {
-        margin-top: 6px !important;
-    }
+            .row,
+            .concept,
+            .in-letters,
+            .main,
+            .elaborado-section {
+                margin-top: 6px !important;
+            }
 
-    table td,
-    table th {
-        padding: 4px 6px !important;
-    }
+            table td,
+            table th {
+                padding: 4px 6px !important;
+            }
 
-    .actions {
-        display: none !important;
-    }
+            .actions {
+                display: none !important;
+            }
 
-    .signature {
-        height: 70px !important;
-    }
+            .signature {
+                height: 70px !important;
+            }
 
-    .side {
-        padding: 6px !important;
-    }
-}
-
+            .side {
+                padding: 6px !important;
+            }
+        }
     </style>
 </head>
 
@@ -414,7 +421,7 @@
                 <label>Fecha:</label>
                 <input type="date" id="fecha">
             </div>
-            <div class="field small"><label>Valor $</label><input placeholder="$ 0" id="valor" type="number"></div>
+            <div class="field small"><label>Valor $</label><input placeholder="$ 0" id="valor" type="text"></div>
         </div>
 
         <div class="row" style="margin-top:8px">
@@ -432,7 +439,8 @@
         <div class="in-letters">
             <strong>La suma de: (en letras)</strong>
             <div style="margin-top:6px">
-                <input style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.06);border-radius:4px" id="letras">
+                <input style="width:100%;padding:8px;border:1px solid rgba(0,0,0,0.06);border-radius:4px" id="letras"
+                    readonly>
             </div>
         </div>
 
@@ -448,60 +456,16 @@
                         </tr>
                     </thead>
                     <tbody id="tablaBody">
-                        <tr>
-                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
-                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
-                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
-                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
-                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
-                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
-                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td><input class="input-codigo" style="width:100%;border:none" /></td>
-                            <td><input class="input-cuenta" style="width:100%;border:none" /></td>
-                            <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                            <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
-                                    oninput="this.value=this.value.replace(/[^\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\B(?=(\d{3})+(?!\d))/g,'.')):'';" />
-                            </td>
-                        </tr>
-
-
+                        <!-- Las filas se generan dinámicamente -->
                     </tbody>
                 </table>
-                
             </div>
-            
 
             <div class="side">
                 <div>
-                    <div class="mini">
+                    <label>Elaborado por:</label>
+                    <div class="signature">Firma y sello</div>
+                    <div class="mini"><br>
                         <div style="flex:1"><label for="efectivo">Efectivo</label> <input type="checkbox" id="efectivo">
                         </div>
                     </div>
@@ -517,12 +481,8 @@
                     </div>
                 </div>
             </div>
-            
         </div>
-        <div class="signature">Elaborado</div>
-                    <div style="margin-top:8px;display:flex;align-items:start;justify-content:flex-start;gap:8px">
 
-                    </div>
         <div class="actions">
             <button class="btn" onclick="guardarPago()">Guardar Pago</button>
             <button class="btn" onclick="window.print()">Imprimir / Descargar</button>
@@ -531,26 +491,97 @@
     </div>
 
     <script>
+        // --- Función para formatear valor con puntos y signo $ ---
+        function formatearValor(input) {
+            let valor = input.value.replace(/[^\d]/g, '');
+            if (valor) {
+                input.value = '$ ' + valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            } else {
+                input.value = '';
+            }
+            // Actualizar letras
+            actualizarLetras();
+        }
+
+        // --- Actualizar conversión a letras ---
+        function actualizarLetras() {
+            const valorInput = document.getElementById('valor');
+            const valorNumerico = valorInput.value.replace(/[^\d]/g, '');
+            const letras = numeroALetras(valorNumerico);
+            document.getElementById('letras').value = letras;
+        }
+
+        // --- Agregar evento al campo valor ---
+        document.getElementById('valor').addEventListener('input', function () {
+            formatearValor(this);
+        });
+
+        // --- Agregar fila a la tabla ---
+        function agregarFila() {
+            const tbody = document.getElementById('tablaBody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input class="input-codigo" style="width:100%;border:none" /></td>
+                <td><input class="input-cuenta" style="width:100%;border:none" /></td>
+                <td><input class="input-debito" style="width:100%;border:none;text-align:right" type="text"
+                        oninput="this.value=this.value.replace(/[^\\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\\B(?=(\\d{3})+(?!\\d))/g,'.')):'';" />
+                </td>
+                <td><input class="input-credito" style="width:100%;border:none;text-align:right" type="text"
+                        oninput="this.value=this.value.replace(/[^\\d]/g,'');this.value=this.value?('$ '+this.value.replace(/\\B(?=(\\d{3})+(?!\\d))/g,'.')):'';" />
+                </td>
+            `;
+            tbody.appendChild(tr);
+
+            // Agregar evento Enter a los inputs de la nueva fila
+            const inputs = tr.querySelectorAll('input');
+            inputs.forEach((input, index) => {
+                input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        // Si es el último input de la fila, agregar nueva fila
+                        if (index === inputs.length - 1) {
+                            agregarFila();
+                            // Enfocar el primer input de la nueva fila
+                            setTimeout(() => {
+                                const nuevaFila = tbody.lastElementChild;
+                                nuevaFila.querySelector('.input-codigo').focus();
+                            }, 0);
+                        } else {
+                            // Pasar al siguiente input
+                            inputs[index + 1].focus();
+                        }
+                    }
+                });
+            });
+        }
+
+        // --- Inicializar tabla con 4 filas ---
+        function inicializarTabla() {
+            for (let i = 0; i < 4; i++) {
+                agregarFila();
+            }
+        }
+
         // --- Cargar lista de pagos guardados ---
         function cargarListaPagos() {
             try {
-                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                const pagosGuardados = localStorage.getItem('pagosGuardados_iglesia');
                 const listContainer = document.getElementById('savedList');
-                
+
                 if (!pagosGuardados) {
                     listContainer.innerHTML = '<div class="empty-state">No hay pagos guardados aún</div>';
                     return;
                 }
 
                 const pagos = JSON.parse(pagosGuardados);
-                
+
                 if (pagos.length === 0) {
                     listContainer.innerHTML = '<div class="empty-state">No hay pagos guardados aún</div>';
                     return;
                 }
 
                 listContainer.innerHTML = '';
-                
+
                 pagos.forEach((pago, index) => {
                     const item = document.createElement('div');
                     item.className = 'saved-item';
@@ -572,7 +603,7 @@
         // --- Guardar pago ---
         function guardarPago() {
             const pagadoA = document.getElementById('pagado').value.trim();
-            
+
             if (!pagadoA) {
                 alert('Debes completar al menos el campo "Pagado a" para guardar');
                 return;
@@ -588,6 +619,7 @@
                     cc: document.getElementById('cc').checked,
                     nit: document.getElementById('nit').checked,
                     docNumero: document.getElementById('docNumero').value.trim(),
+                    elaboradoPor: document.getElementById('elaboradoPor').value.trim(),
                     cuentas: []
                 };
 
@@ -596,7 +628,7 @@
                 filas.forEach(fila => {
                     const codigo = fila.querySelector('.input-codigo').value.trim();
                     const cuenta = fila.querySelector('.input-cuenta').value.trim();
-                    
+
                     if (codigo || cuenta) {
                         pago.cuentas.push({
                             codigo: codigo,
@@ -607,14 +639,14 @@
 
                 // Obtener pagos existentes
                 let pagos = [];
-                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                const pagosGuardados = localStorage.getItem('pagosGuardados_iglesia');
                 if (pagosGuardados) {
                     pagos = JSON.parse(pagosGuardados);
                 }
 
                 // Verificar si ya existe un pago con el mismo nombre
                 const indiceExistente = pagos.findIndex(p => p.pagadoA.toLowerCase() === pagadoA.toLowerCase());
-                
+
                 if (indiceExistente >= 0) {
                     if (confirm(`Ya existe un pago guardado para "${pagadoA}". ¿Deseas actualizarlo?`)) {
                         pagos[indiceExistente] = pago;
@@ -625,12 +657,12 @@
                     pagos.push(pago);
                 }
 
-                // Guardar en localStorage
-                localStorage.setItem('pagosGuardados', JSON.stringify(pagos));
-                
+                // Guardar en localStorage con clave única
+                localStorage.setItem('pagosGuardados_iglesia', JSON.stringify(pagos));
+
                 // Recargar lista
                 cargarListaPagos();
-                
+
                 alert('Pago guardado correctamente');
             } catch (e) {
                 console.error('Error al guardar:', e);
@@ -641,7 +673,7 @@
         // --- Cargar pago desde la lista ---
         function cargarPago(index) {
             try {
-                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                const pagosGuardados = localStorage.getItem('pagosGuardados_iglesia');
                 if (!pagosGuardados) return;
 
                 const pagos = JSON.parse(pagosGuardados);
@@ -658,6 +690,17 @@
                 document.getElementById('cc').checked = pago.cc || false;
                 document.getElementById('nit').checked = pago.nit || false;
                 document.getElementById('docNumero').value = pago.docNumero || '';
+                document.getElementById('elaboradoPor').value = pago.elaboradoPor || '';
+
+                // Limpiar tabla y recrear filas necesarias
+                const tbody = document.getElementById('tablaBody');
+                tbody.innerHTML = '';
+
+                // Asegurar mínimo 4 filas o las necesarias para las cuentas
+                const numFilas = Math.max(4, pago.cuentas ? pago.cuentas.length : 0);
+                for (let i = 0; i < numFilas; i++) {
+                    agregarFila();
+                }
 
                 // Cargar cuentas en la tabla
                 if (pago.cuentas && pago.cuentas.length > 0) {
@@ -688,13 +731,13 @@
             }
 
             try {
-                const pagosGuardados = localStorage.getItem('pagosGuardados');
+                const pagosGuardados = localStorage.getItem('pagosGuardados_iglesia');
                 if (!pagosGuardados) return;
 
                 let pagos = JSON.parse(pagosGuardados);
                 pagos.splice(index, 1);
 
-                localStorage.setItem('pagosGuardados', JSON.stringify(pagos));
+                localStorage.setItem('pagosGuardados_iglesia', JSON.stringify(pagos));
                 cargarListaPagos();
             } catch (e) {
                 console.error('Error al eliminar:', e);
@@ -709,6 +752,11 @@
                 if (i.type === 'checkbox') i.checked = false
             });
             document.querySelectorAll('textarea').forEach(t => t.value = '');
+
+            // Reiniciar tabla
+            const tbody = document.getElementById('tablaBody');
+            tbody.innerHTML = '';
+            inicializarTabla();
         }
 
         // --- Convertir número a letras (pesos m/cte) ---
@@ -770,13 +818,8 @@
             return texto.replace(/\s+/g, ' ').trim();
         }
 
-        // --- Evento para actualizar letras en tiempo real ---
-        document.getElementById('valor').addEventListener('input', e => {
-            const letras = numeroALetras(e.target.value);
-            document.getElementById('letras').value = letras;
-        });
-
         // --- Inicializar ---
+        inicializarTabla();
         cargarListaPagos();
     </script>
 </body>
