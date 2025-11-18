@@ -1,0 +1,482 @@
+:root {
+    --bg: #ffffff;
+    --soft-green: #eaf4f0;          /* Fondo suave más elegante */
+    --accent-green: #176f52;        /* Verde principal más profesional */
+    --line: #9db6ac;                /* Líneas más sobrias */
+    --muted: #555555;               /* Gris más serio */
+    --page-width: 980px;
+}
+
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+body {
+    background: #f6f6f6;
+    padding: 18px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.sidebar {
+    width: 280px;
+    background: var(--bg);
+    padding: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    height: fit-content;
+    position: sticky;
+    top: 18px;
+}
+
+.sidebar h3 {
+    margin: 0 0 12px 0;
+    color: var(--accent-green);
+    font-size: 16px;
+    border-bottom: 2px solid var(--accent-green);
+    padding-bottom: 8px;
+}
+
+.saved-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.saved-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: var(--soft-green);
+    border: 1px solid rgba(23, 111, 82, 0.25);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.saved-item:hover {
+    background: #d8ebe4;
+    border-color: var(--accent-green);
+}
+
+.saved-item-name {
+    font-weight: 700;
+    color: var(--accent-green);
+    margin-bottom: 4px;
+}
+
+.saved-item-concept {
+    font-size: 12px;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.saved-item-actions {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.saved-item-actions button {
+    padding: 4px 8px;
+    font-size: 11px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-load {
+    background: var(--accent-green);
+    color: white;
+    flex: 1;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+}
+
+.paper {
+    width: var(--page-width);
+    background: var(--bg);
+    padding: 18px;
+    border: 1px solid rgba(0, 0, 0, 0.06)
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px
+}
+
+.title {
+    background-color: #0073ba;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: 700
+}
+
+.no-box {
+    border: 1px solid #0073ba;
+    padding: 8px 12px;
+    border-radius: 4px;
+    min-width: 140px
+}
+
+
+.no-box input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-weight: 700;
+    font-size: 16px
+}
+
+.row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px
+}
+
+.row .field {
+    flex: 1
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 4px
+}
+
+.field input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: transparent
+}
+
+.small {
+    flex: 0.4
+}
+
+.concept {
+    margin-top: 10px
+}
+
+.concept textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--soft-green);
+}
+
+.in-letters {
+    margin-top: 8px;
+    background: linear-gradient(180deg, #f4fbf7, #eaf4f0);
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(23, 111, 82, 0.15);
+}
+
+.main {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px
+}
+
+.table-wrap {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse
+}
+
+thead th {
+    background: linear-gradient(180deg, #f5f5f5, #ffffff);
+    padding: 8px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    font-weight: 700;
+    color: var(--muted)
+}
+
+tbody td {
+    padding: 8px;
+    border-bottom: 1px dashed rgba(157, 182, 172, 0.4);
+}
+
+.col-cod {
+    width: 25%
+}
+
+.col-cuenta {
+    width: 40%
+}
+
+.col-deb {
+    width: 20%;
+    text-align: right
+}
+
+.col-cred {
+    width: 20%;
+    text-align: right
+}
+
+.side {
+    width: 300px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 8px;
+    background: var(--soft-green)
+}
+
+.side .mini {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px
+}
+
+.side label {
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.side input {
+    padding: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 3px
+}
+
+.signature {
+    height: 120px;
+    border: 1px dashed rgba(0, 0, 0, 0.12);
+    margin-top: 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0, 0, 0, 0.15)
+}
+
+.elaborado-section {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--soft-green);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+}
+
+.elaborado-section label {
+    display: block;
+    font-weight: 700;
+    color: var(--accent-green);
+    margin-bottom: 8px;
+}
+
+.elaborado-section input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: white;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px
+}
+
+.footer-right input {
+    width: 60px;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 3px
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+    gap: 8px
+}
+
+.btn {
+    background-color: #0068a8;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer
+}
+
+.btn.secondary {
+    background: #5fc6d8;
+    color: black;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.firma-elaborado {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+}
+
+.firma-elaborado .label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.firma-elaborado .linea {
+    height: 38px;
+    border-bottom: 2px solid var(--line);
+}
+
+
+@media print {
+    body {
+        background: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .sidebar {
+        display: none !important;
+    }
+
+    @page {
+        size: letter;
+        margin: 20mm 10mm 10mm 10mm;
+    }
+
+    .paper {
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: none !important;
+        background: var(--bg) !important;
+        padding: 12px !important;
+        transform: scale(0.92);
+        transform-origin: top center;
+        margin-top: 8mm;
+    }
+
+    .header {
+        margin-bottom: 4px !important;
+    }
+
+    .title {
+        padding: 6px 10px !important;
+        font-size: 14px !important;
+    }
+
+    .no-box {
+        padding: 6px 10px !important;
+        font-size: 14px !important;
+    }
+
+    .row {
+        margin-top: 4px !important;
+    }
+
+    .field label {
+        font-size: 11px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .field input {
+        padding: 4px 6px !important;
+        font-size: 12px !important;
+    }
+
+    .concept {
+        margin-top: 4px !important;
+    }
+
+    .concept label {
+        font-size: 11px !important;
+    }
+
+    .concept textarea {
+        min-height: 32px !important;
+        padding: 4px 6px !important;
+        font-size: 12px !important;
+    }
+
+    .in-letters {
+        margin-top: 4px !important;
+        padding: 6px !important;
+        font-size: 12px !important;
+    }
+
+    .in-letters input {
+        padding: 4px 6px !important;
+        margin-top: 3px !important;
+        font-size: 12px !important;
+    }
+
+    .main {
+        margin-top: 6px !important;
+    }
+
+    table td,
+    table th {
+        padding: 3px 4px !important;
+        font-size: 11px !important;
+    }
+
+    .actions {
+        display: none !important;
+    }
+
+    .signature {
+        height: 50px !important;
+        font-size: 11px !important;
+    }
+
+    .side {
+        padding: 4px !important;
+    }
+
+    .side label {
+        font-size: 11px !important;
+    }
+
+    .side input {
+        padding: 3px 4px !important;
+        font-size: 11px !important;
+    }
+
+    br {
+        display: none !important;
+    }
+
+    .firma-elaborado .linea {
+        height: 28px !important;
+        border-bottom: 1px solid var(--line) !important;
+    }
+}
